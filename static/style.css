@@ -724,43 +724,40 @@ body.theme-light .deck-item { background: rgba(255, 255, 255, 0.6); }
 
 /* --- STILE TESTO ROTANTE --- */
 
-/* Contenitore principale del testo che ruota (nasconde l'overflow verticale) */
 .rotating-text-container {
     display: inline-flex;
     position: relative;
     text-align: left;
-    height: 1.2em; /* Altezza fissa per prevenire salti */
-    overflow: hidden;
+    height: 1.2em; /* CRUCIALE: Definisce l'altezza e nasconde l'overflow */
+    overflow: hidden; 
     vertical-align: middle;
-    margin-left: 8px; /* Spazio dopo "Preparati con" */
+    margin-left: 8px; 
 }
 
-/* Ogni elemento di testo (Flashcard, Quiz) */
 .rotating-text-item {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     
-    /* Animazioni CSS (Sostituiscono React Motion) */
     opacity: 0;
-    transform: translateY(100%); /* Parte da sotto */
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Curva fluida */
+    transform: translateY(100%); /* Stato iniziale: invisibile, sotto */
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
     
-    /* Stile specifico per renderlo come il blocco blu di ReactBits */
+    /* Stili per renderlo visibile (controlla i colori) */
     padding: 0 8px;
     border-radius: 6px;
-    background-color: var(--primary-color); /* Usa il colore principale del tuo tema */
-    color: var(--secondary-color-text); /* Assicura che il testo sia leggibile (es. bianco o nero) */
+    background-color: var(--primary-color); 
+    color: var(--secondary-color-text); 
 }
 
-/* Classe aggiunta da JS per mostrare l'elemento */
+/* Stato Attivo (Entrata) */
 .rotating-text-item.active {
     opacity: 1;
-    transform: translateY(0); /* Si sposta in posizione */
+    transform: translateY(0); 
 }
 
-/* Classe aggiunta da JS per nascondere l'elemento */
+/* Stato di Uscita */
 .rotating-text-item.exit {
     opacity: 0;
     transform: translateY(-100%); /* Esce verso l'alto */

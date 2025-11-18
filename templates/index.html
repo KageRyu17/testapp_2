@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Generatore Quiz & Flashcards{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2>Crea Quiz o Flashcards</h2>
+  <p class="card-intro">
+    Incolla qui il contenuto del programma (testo, appunti, slide).
+    Il sistema genererà automaticamente un Quiz per testarti o delle Flashcard per il ripasso.
+  </p>
+
+  <form method="post" action="{{ url_for('generate_quiz') }}" class="form">
+    <div class="form-group">
+      <label for="program_text">Contenuto del programma</label>
+      <textarea id="program_text" name="program_text" rows="12" required
+        placeholder="Incolla qui il testo sul punto del programma (onde meccaniche, acustiche, ecc.)"></textarea>
+    </div>
+
+    <div class="form-group inline-group">
+      <div>
+        <label for="num_questions">Quantità (Domande o Card)</label>
+        <input
+          type="number"
+          id="num_questions"
+          name="num_questions"
+          value="20"
+          min="1"
+          max="50"
+          required
+        />
+      </div>
+      <div class="helper-text">
+        Scegli il numero di domande per il quiz o il numero di flashcard da creare.
+      </div>
+    </div>
+
+    <div class="inline-group" style="margin-top: 15px; gap: 15px;">
+        <button type="submit" name="action" value="quiz" class="btn primary">
+            📝 Genera Quiz
+        </button>
+
+        <button type="submit" name="action" value="flashcards" class="btn primary" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 12px 30px rgba(16, 185, 129, 0.35);">
+            🗂️ Genera Flashcards
+        </button>
+    </div>
+  </form>
+
+  <div style="margin-top: 30px; text-align: center; border-top: 1px solid rgba(148,163,184,0.3); padding-top: 20px;">
+      <p style="margin-bottom: 10px; font-size: 0.9rem; opacity: 0.8;">Vuoi ripassare argomenti vecchi?</p>
+      <a href="{{ url_for('saved_flashcards') }}" class="btn secondary">
+          📂 Vai alle Flashcard già fatte
+      </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Risultato Quiz{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2>Risultato del quiz</h2>
+
+  <div class="score-summary">
+    <div class="score-main">
+      <div class="score-label">Punteggio finale</div>
+      <div class="score-value">{{ score }}</div>
+    </div>
+    <div class="score-details">
+      <span class="badge total">Domande: {{ total }}</span>
+      <span class="badge correct">Corrette: {{ correct }}</span>
+      <span class="badge wrong">Sbagliate: {{ wrong }}</span>
+      <span class="badge blank">Non risposte: {{ blank }}</span>
+    </div>
+  </div>
+
+  <h3>Dettaglio domande</h3>
+
+  <div class="questions-list">
+    {% for item in details %}
+      <div class="question-block compact">
+        <div class="question-header">
+          <span class="question-number">Domanda {{ loop.index }}</span>
+          <span class="question-type">
+            {% if item.result == "correct" %}
+              <span class="pill correct">+1</span>
+            {% elif item.result == "wrong" %}
+              <span class="pill wrong">-0.25</span>
+            {% else %}
+              <span class="pill blank">0</span>
+            {% endif %}
+          </span>
+        </div>
+
+        <div class="question-text">
+          {{ item.text }}
+        </div>
+
+        <div class="question-body">
+          <div><strong>Tua risposta:</strong>
+            {% if item.user_answer is none %}
+              <span class="badge blank">Non data</span>
+            {% else %}
+              {{ item.user_answer }}
+            {% endif %}
+          </div>
+          <div><strong>Corretta:</strong> {{ item.correct_answer }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <a href="{{ url_for('index') }}" class="btn secondary">Torna alla pagina iniziale</a>
+</div>
+{% endblock %}

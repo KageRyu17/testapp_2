@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Flashcards - {{ deck.topic[:30] }}{% endblock %}
+
+{% block content %}
+<div class="card" style="text-align: center;">
+    <h2 style="margin-bottom: 5px;">Ripasso Flashcards</h2>
+    <p class="site-subtitle">{{ deck.topic }}</p>
+    
+    <div id="gameArea">
+        <div class="flashcard-wrapper" onclick="flipCard()">
+            <div class="flashcard" id="activeCard">
+                <div class="flashcard-face flashcard-front">
+                    <p id="textFront">...</p>
+                    <small style="margin-top:15px; opacity:0.7;">(Clicca per girare)</small>
+                </div>
+                <div class="flashcard-face flashcard-back">
+                    <p id="textBack">...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="fc-progress">
+            Card <span id="currentIndex">1</span> di <span id="totalCount">0</span>
+        </div>
+
+        <div class="fc-controls">
+            <button class="btn secondary" id="prevBtn" onclick="prevCard()">❮ Precedente</button>
+            <button class="btn primary" id="nextBtn" onclick="nextCard()">Prossima ❯</button>
+        </div>
+    </div>
+
+    <div id="endScreen" class="hidden" style="padding: 40px 0;">
+        <h3>Set Completato! 🎉</h3>
+        <p>Hai ripassato tutte le carte.</p>
+        <div class="inline-group" style="justify-content: center; margin-top: 20px;">
+            <button onclick="restart()" class="btn secondary">Ricomincia</button>
+            <a href="{{ url_for('index') }}" class="btn primary">Nuovo Argomento</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dati passati da Flask
+    const cards = [
+        {% for card in deck.cards %}
+            { front: {{ card.front | tojson }}, back: {{ card.back | tojson }} },
+        {% endfor %}
+    ];
+
+    let currentIndex = 0;
+    const cardEl = document.getElementById('activeCard');
+    const frontEl = document.getElementById('textFront');
+    const backEl = document.getElementById('textBack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const idxDisplay = document.getElementById('currentIndex');
+
+    document.getElementById('totalCount').innerText = cards.length;
+
+    function updateUI() {
+        // Assicura che sia sul fronte
+        cardEl.classList.remove('flipped');
+
+        // Aggiorna testo con piccolo delay per non spoilerare mentre gira se si cambia veloce
+        setTimeout(() => {
+            frontEl.innerText = cards[currentIndex].front;
+            backEl.innerText = cards[currentIndex].back;
+            idxDisplay.innerText = currentIndex + 1;
+        }, 150);
+
+        prevBtn.disabled = (currentIndex === 0);
+        
+        if (currentIndex === cards.length - 1) {
+            nextBtn.innerText = "Fine 🏁";
+        } else {
+            nextBtn.innerText = "Prossima ❯";
+        }
+    }
+
+    function flipCard() {
+        cardEl.classList.toggle('flipped');
+    }
+
+    function nextCard() {
+        if (currentIndex < cards.length - 1) {
+            currentIndex++;
+            updateUI();
+        } else {
+            // Fine
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('endScreen').classList.remove('hidden');
+        }
+    }
+
+    function prevCard() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateUI();
+        }
+    }
+
+    function restart() {
+        currentIndex = 0;
+        document.getElementById('endScreen').classList.add('hidden');
+        document.getElementById('gameArea').classList.remove('hidden');
+        updateUI();
+    }
+
+    // Avvio
+    updateUI();
+</script>
+{% endblock %}

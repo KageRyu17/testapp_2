@@ -736,16 +736,16 @@ body.theme-light .deck-item { background: rgba(255, 255, 255, 0.6); }
     display: inline-flex;
     position: relative;
     text-align: left;
-    height: 1.2em; /* Mantenuto corretto */
+    
+    /* 1. IMPOSTA LA DIMENSIONE PER CORRISPONDERE ALL'H1: */
+    font-size: 2.8rem; /* Circa la dimensione di h1 */
+    
+    /* 2. Altezza basata sulla nuova font-size: */
+    height: 1.2em;
+    
     overflow: hidden;
-    
-    /* MODIFICA CRUCIALE PER L'ALLINEAMENTO: */
-    vertical-align: top; 
-    
-    margin-left: 8px;
-    
-    /* Aggiungi una dimensione font esplicita se l'h1 è troppo grande */
-    /* font-size: 1.2rem; */ /* Puoi provare ad attivarlo se non si allinea ancora */
+    vertical-align: middle; /* Prova middle o top se non si allinea bene */
+    margin-left: 12px; /* Aumentato lo spazio dal testo "con" */
 }
 
 .rotating-text-item {
@@ -758,15 +758,16 @@ body.theme-light .deck-item { background: rgba(255, 255, 255, 0.6); }
     transform: translateY(100%);
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
-    padding: 0 8px;
+    /* 3. IMPOSTA L'ALTEZZA RIGA INTERNA PER EVITARE SPOSTAMENTI: */
+    line-height: 1.2em; /* CRUCIALE: Assicura che l'altezza occupata sia corretta */
+    
+    padding: 0 10px; /* Aumentato il padding per il badge */
     border-radius: 6px;
     background-color: var(--primary-color);
     color: var(--secondary-color-text);
-    
-    /* NUOVO: Rimuove margini interni che potrebbero causare problemi di altezza */
-    line-height: 1.2em; 
 }
-/* ... il resto rimane uguale ... */
+
+/* ... il resto rimane invariato ... */
 /* Stato Attivo (Entrata) */
 .rotating-text-item.active {
     opacity: 1;

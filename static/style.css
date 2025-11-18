@@ -1,4 +1,22 @@
+/* Definizione delle variabili CSS globali */
+:root {
+    /* Colori generali per il tema chiaro */
+    --primary-color-light: #60a5fa; /* Es. Blu chiaro */
+    --secondary-color-text-light: white; 
+}
 
+body.theme-dark {
+    /* Tema Scuro: usa colori specifici per il badge rotante */
+    --primary-color: #2563eb; /* Blu scuro per lo sfondo del badge */
+    --secondary-color-text: white; /* Testo bianco */
+}
+
+body.theme-light {
+    /* Tema Chiaro: usa colori specifici per il badge rotante */
+    --primary-color: #3b82f6; /* Blu chiaro per lo sfondo del badge */
+    --secondary-color-text: #111827; /* Testo scuro */
+}
+/* ... resto del tuo CSS ... */
 * {
   box-sizing: border-box;
 }

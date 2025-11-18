@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Flashcard Salvate{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>📚 I tuoi mazzi di Flashcard</h2>
+    <p class="card-intro">Qui trovi tutti gli argomenti che hai generato in passato.</p>
+
+    {% if decks %}
+        <ul class="deck-list">
+        {% for deck in decks %}
+            <li class="deck-item">
+                <div>
+                    <strong>{{ deck.topic }}</strong>
+                    <br>
+                    <small style="opacity: 0.7;">{{ deck.created_at.strftime('%d/%m/%Y') }} • {{ deck.cards|length }} carte</small>
+                </div>
+                <a href="{{ url_for('view_flashcards', deck_id=deck.id) }}" class="btn secondary">
+                    Ripassa ▶️
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p style="text-align: center; padding: 20px;">Non hai ancora creato flashcard.</p>
+        <div style="text-align: center;">
+            <a href="{{ url_for('index') }}" class="btn primary">Crea la prima ora</a>
+        </div>
+    {% endif %}
+    
+    <div style="margin-top: 20px;">
+        <a href="{{ url_for('index') }}" class="btn secondary">← Torna alla Home</a>
+    </div>
+</div>
+{% endblock %}

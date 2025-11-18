@@ -1,0 +1,767 @@
+
+* {
+  box-sizing: border-box;
+}
+
+/* Tema base: dark/light via classi sul body */
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Tema scuro */
+body.theme-dark {
+  color: #e5e7eb;
+  background: radial-gradient(circle at top left, #1d4ed8, #0f172a 40%, #020617 80%);
+}
+
+/* Tema chiaro */
+body.theme-light {
+  color: #111827;
+  background: radial-gradient(circle at top left, #bfdbfe, #e5e7eb 40%, #f9fafb 80%);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header {
+  padding: 24px 16px 8px;
+}
+
+.site-header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.site-title {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+body.theme-dark .site-title {
+  color: #f9fafb;
+}
+
+body.theme-light .site-title {
+  color: #111827;
+}
+
+.site-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+}
+
+body.theme-dark .site-subtitle {
+  color: #9ca3af;
+}
+
+body.theme-light .site-subtitle {
+  color: #4b5563;
+}
+
+.site-main {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 12px;
+  font-size: 0.8rem;
+}
+
+body.theme-dark .site-footer {
+  color: #6b7280;
+}
+
+body.theme-light .site-footer {
+  color: #6b7280;
+}
+
+/* Card principale */
+.card {
+  width: 100%;
+  max-width: 900px;
+  border-radius: 16px;
+  padding: 24px 20px 20px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  backdrop-filter: blur(16px);
+}
+
+body.theme-dark .card {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+body.theme-light .card {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.5rem;
+}
+
+body.theme-dark .card h2 {
+  color: #f9fafb;
+}
+
+body.theme-light .card h2 {
+  color: #111827;
+}
+
+.card-intro {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+body.theme-dark .card-intro {
+  color: #9ca3af;
+}
+
+body.theme-light .card-intro {
+  color: #4b5563;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+body.theme-dark .form-group label {
+  color: #e5e7eb;
+}
+
+body.theme-light .form-group label {
+  color: #111827;
+}
+
+textarea,
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s, color 0.15s;
+}
+
+body.theme-dark textarea,
+body.theme-dark input[type="text"],
+body.theme-dark input[type="number"] {
+  background-color: rgba(15, 23, 42, 0.8);
+  color: #f9fafb;
+}
+
+body.theme-light textarea,
+body.theme-light input[type="text"],
+body.theme-light input[type="number"] {
+  background-color: rgba(249, 250, 251, 0.9);
+  color: #111827;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.4);
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: #6b7280;
+}
+
+.inline-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.inline-group > div:first-child {
+  min-width: 140px;
+}
+
+.helper-text {
+  font-size: 0.85rem;
+}
+
+body.theme-dark .helper-text {
+  color: #9ca3af;
+}
+
+body.theme-light .helper-text {
+  color: #4b5563;
+}
+
+/* Bottoni */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s, box-shadow 0.15s, transform 0.05s, border-color 0.15s;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: #f9fafb;
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.35);
+}
+
+.btn.primary:hover {
+  background: linear-gradient(135deg, #1d4ed8, #4338ca);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(37, 99, 235, 0.45);
+}
+
+.btn.secondary {
+  background: transparent;
+}
+
+body.theme-dark .btn.secondary {
+  color: #e5e7eb;
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+body.theme-light .btn.secondary {
+  color: #111827;
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+.btn.secondary:hover {
+  background: rgba(15, 23, 42, 0.05);
+}
+
+/* Bottone tema */
+.theme-toggle {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  cursor: pointer;
+  font-size: 0.85rem;
+  background: transparent;
+}
+
+body.theme-dark .theme-toggle {
+  color: #e5e7eb;
+}
+
+body.theme-light .theme-toggle {
+  color: #111827;
+}
+
+/* Flash messages */
+.flash-container {
+  max-width: 900px;
+  margin: 0 auto 12px;
+}
+
+.flash-message {
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+body.theme-dark .flash-message {
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.7);
+  color: #fecaca;
+}
+
+body.theme-light .flash-message {
+  background: rgba(248, 113, 113, 0.06);
+  border: 1px solid rgba(248, 113, 113, 0.7);
+  color: #7f1d1d;
+}
+
+/* Blocchi domanda */
+.question-block {
+  border-radius: 12px;
+  padding: 12px 12px 10px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+body.theme-dark .question-block {
+  background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), rgba(15, 23, 42, 0.9));
+}
+
+body.theme-light .question-block {
+  background: linear-gradient(135deg, rgba(191, 219, 254, 0.25), rgba(249, 250, 251, 0.95));
+}
+
+.question-block.compact {
+  border-radius: 10px;
+}
+
+body.theme-dark .question-block.compact {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+body.theme-light .question-block.compact {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.question-number {
+  font-weight: 600;
+}
+
+.question-type {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+body.theme-dark .question-type {
+  color: #93c5fd;
+}
+
+body.theme-light .question-type {
+  color: #1d4ed8;
+}
+
+.question-text {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.question-body {
+  font-size: 0.9rem;
+}
+
+/* Opzioni MCQ */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background-color 0.1s, border-color 0.1s;
+}
+
+body.theme-dark .option:hover {
+  background-color: rgba(15, 23, 42, 0.8);
+}
+
+body.theme-light .option:hover {
+  background-color: rgba(229, 231, 235, 0.7);
+}
+
+.option input[type="radio"] {
+  accent-color: #60a5fa;
+}
+
+.text-answer {
+  max-width: 320px;
+}
+
+/* Progress summary */
+.progress-summary {
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+body.theme-dark .progress-summary {
+  color: #bfdbfe;
+}
+
+body.theme-light .progress-summary {
+  color: #1f2937;
+}
+
+/* Badge, pill, score */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin-right: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+}
+
+body.theme-dark .badge {
+  color: #e5e7eb;
+}
+
+body.theme-light .badge {
+  color: #111827;
+}
+
+.badge.correct {
+  border-color: rgba(52, 211, 153, 0.7);
+}
+
+body.theme-dark .badge.correct {
+  color: #6ee7b7;
+}
+
+body.theme-light .badge.correct {
+  color: #166534;
+}
+
+.badge.wrong {
+  border-color: rgba(248, 113, 113, 0.7);
+}
+
+body.theme-dark .badge.wrong {
+  color: #fecaca;
+}
+
+body.theme-light .badge.wrong {
+  color: #7f1d1d;
+}
+
+.badge.blank {
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+body.theme-dark .badge.blank {
+  color: #9ca3af;
+}
+
+body.theme-light .badge.blank {
+  color: #4b5563;
+}
+
+.score-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(96, 165, 250, 0.4);
+}
+
+body.theme-dark .score-summary {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.16), rgba(15, 23, 42, 0.9));
+}
+
+body.theme-light .score-summary {
+  background: linear-gradient(135deg, rgba(191, 219, 254, 0.5), rgba(249, 250, 251, 0.9));
+}
+
+.score-main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.score-label {
+  font-size: 0.9rem;
+}
+
+body.theme-dark .score-label {
+  color: #bfdbfe;
+}
+
+body.theme-light .score-label {
+  color: #1e293b;
+}
+
+.score-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+body.theme-dark .score-value {
+  color: #f9fafb;
+}
+
+body.theme-light .score-value {
+  color: #111827;
+}
+
+.score-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.pill.correct {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+body.theme-dark .pill.correct {
+  color: #4ade80;
+}
+
+body.theme-light .pill.correct {
+  color: #166534;
+}
+
+.pill.wrong {
+  background: rgba(248, 113, 113, 0.15);
+}
+
+body.theme-dark .pill.wrong {
+  color: #fb7185;
+}
+
+body.theme-light .pill.wrong {
+  color: #7f1d1d;
+}
+
+.pill.blank {
+  background: rgba(148, 163, 184, 0.15);
+}
+
+body.theme-dark .pill.blank {
+  color: #e5e7eb;
+}
+
+body.theme-light .pill.blank {
+  color: #374151;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .card {
+    padding: 16px 14px;
+  }
+
+  .site-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .inline-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .score-summary {
+    padding: 8px 10px;
+  }
+}
+
+/* --- STILI FLASHCARD --- */
+.flashcard-wrapper {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 600px;
+    height: 350px;
+    margin: 20px auto;
+}
+
+.flashcard {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+    cursor: pointer;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.flashcard-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Nasconde il retro */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    overflow-y: auto;
+}
+
+/* Fronte: usa colori del tema o neutri */
+.flashcard-front {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+/* Retro: colore differente per distinguerlo */
+.flashcard-back {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.fc-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.fc-progress {
+    text-align: center;
+    margin-top: 10px;
+    opacity: 0.7;
+}
+
+/* Stile lista salvataggi */
+.deck-list {
+    list-style: none;
+    padding: 0;
+}
+.deck-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+body.theme-dark .deck-item { background: rgba(15, 23, 42, 0.6); }
+body.theme-light .deck-item { background: rgba(255, 255, 255, 0.6); }
+
+.hidden { display: none !important; }
+
+/* --- SFONDO LETTER GLITCH --- */
+#glitch-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Dietro a tutto */
+    background-color: #050505; /* Sfondo molto scuro di base */
+    overflow: hidden;
+}
+
+#glitchCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Effetto ombra ai bordi (Vignette) */
+.glitch-vignette-outer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 100%);
+}
+
+/* Effetto ombra leggera al centro (opzionale, come nel codice React) */
+.glitch-vignette-center {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 60%);
+}
+
+/* --- STILE TESTO ROTANTE --- */
+
+/* Contenitore principale del testo che ruota (nasconde l'overflow verticale) */
+.rotating-text-container {
+    display: inline-flex;
+    position: relative;
+    text-align: left;
+    height: 1.2em; /* Altezza fissa per prevenire salti */
+    overflow: hidden;
+    vertical-align: middle;
+    margin-left: 8px; /* Spazio dopo "Preparati con" */
+}
+
+/* Ogni elemento di testo (Flashcard, Quiz) */
+.rotating-text-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    
+    /* Animazioni CSS (Sostituiscono React Motion) */
+    opacity: 0;
+    transform: translateY(100%); /* Parte da sotto */
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Curva fluida */
+    
+    /* Stile specifico per renderlo come il blocco blu di ReactBits */
+    padding: 0 8px;
+    border-radius: 6px;
+    background-color: var(--primary-color); /* Usa il colore principale del tuo tema */
+    color: var(--secondary-color-text); /* Assicura che il testo sia leggibile (es. bianco o nero) */
+}
+
+/* Classe aggiunta da JS per mostrare l'elemento */
+.rotating-text-item.active {
+    opacity: 1;
+    transform: translateY(0); /* Si sposta in posizione */
+}
+
+/* Classe aggiunta da JS per nascondere l'elemento */
+.rotating-text-item.exit {
+    opacity: 0;
+    transform: translateY(-100%); /* Esce verso l'alto */
+}

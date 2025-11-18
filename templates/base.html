@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Quiz Fisica{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="theme-dark">
+  
+  <div id="glitch-container">
+      <canvas id="glitchCanvas"></canvas>
+      <div class="glitch-vignette-outer"></div>
+      <div class="glitch-vignette-center"></div>
+  </div>
+
+  <div class="page">
+    <header class="site-header">
+      <div class="site-header-inner">
+        <div>
+          <h1 class="site-title">
+            Preparati con 
+            <span id="rotating-text-root" class="rotating-text-container">
+                </span>
+          </h1>
+          <p class="site-subtitle">Creato da Adam Khiraoui</p>
+        </div>
+        <button type="button" class="theme-toggle" onclick="toggleTheme()">
+          Tema chiaro/scuro
+        </button>
+      </div>
+    </header>
+
+    <main class="site-main">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash-container">
+            {% for msg in messages %}
+              <div class="flash-message">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <p>Powered by Google Gemini AI</p>
+    </footer>
+  </div>
+
+  <script>
+    // --- LOGICA TEMA (Esistente) ---
+    function applySavedTheme() {
+      const saved = localStorage.getItem("quiz_theme");
+      const body = document.body;
+      if (saved === "light") {
+        body.classList.remove("theme-dark");
+        body.classList.add("theme-light");
+      } else {
+        body.classList.remove("theme-light");
+        body.classList.add("theme-dark");
+      }
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      if (body.classList.contains("theme-dark")) {
+        body.classList.remove("theme-dark");
+        body.classList.add("theme-light");
+        localStorage.setItem("quiz_theme", "light");
+      } else {
+        body.classList.remove("theme-light");
+        body.classList.add("theme-dark");
+        localStorage.setItem("quiz_theme", "dark");
+      }
+    }
+    applySavedTheme();
+
+    // --- A. LETTER GLITCH ANIMATION (Sfondo - Vanilla JS Port) ---
+    (function() {
+        const canvas = document.getElementById('glitchCanvas');
+        const context = canvas.getContext('2d');
+        const container = document.getElementById('glitch-container');
+
+        const config = {
+            glitchSpeed: 50,
+            colors: ['#2b4539', '#61dca3', '#61b3dc'],
+            chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789',
+            fontSize: 16,
+            charWidth: 10,
+            charHeight: 20,
+            smooth: true
+        };
+
+        let letters = [];
+        let grid = { columns: 0, rows: 0 };
+        let lastGlitchTime = Date.now();
+        let animationFrameId;
+        let resizeTimeout;
+
+        const getRandomChar = () => config.chars[Math.floor(Math.random() * config.chars.length)];
+        const getRandomColor = () => config.colors[Math.floor(Math.random() * config.colors.length)];
+
+        const hexToRgb = (hex) => {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        };
+
+        const interpolateColor = (start, end, factor) => {
+            const result = {
+                r: Math.round(start.r + (end.r - start.r) * factor),
+                g: Math.round(start.g + (end.g - start.g) * factor),
+                b: Math.round(start.b + (end.b - start.b) * factor)
+            };
+            return `rgb(${result.r}, ${result.g}, ${result.b})`;
+        };
+
+        const calculateGrid = (width, height) => {
+            const columns = Math.ceil(width / config.charWidth);
+            const rows = Math.ceil(height / config.charHeight);
+            return { columns, rows };
+        };
+
+        const initializeLetters = (columns, rows) => {
+            grid = { columns, rows };
+            const totalLetters = columns * rows;
+            letters = Array.from({ length: totalLetters }, () => ({
+                char: getRandomChar(),
+                color: getRandomColor(),
+                targetColor: getRandomColor(),
+                colorProgress: 1
+            }));
+        };
+
+        const resizeCanvas = () => {
+            const rect = container.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            
+            context.scale(dpr, dpr);
+
+            canvas.style.width = `${rect.width}px`;
+            canvas.style.height = `${rect.height}px`;
+
+            const { columns, rows } = calculateGrid(rect.width, rect.height);
+            initializeLetters(columns, rows);
+            drawLetters();
+        };
+
+        const drawLetters = () => {
+            const { width, height } = container.getBoundingClientRect();
+            context.clearRect(0, 0, width, height);
+            context.font = `${config.fontSize}px monospace`;
+            context.textBaseline = 'top';
+
+            letters.forEach((letter, index) => {
+                const x = (index % grid.columns) * config.charWidth;
+                const y = Math.floor(index / grid.columns) * config.charHeight;
+                
+                context.fillStyle = letter.color.startsWith('#') ? letter.color : letter.color;
+                context.fillText(letter.char, x, y);
+            });
+        };
+
+        const updateLetters = () => {
+            const updateCount = Math.max(1, Math.floor(letters.length * 0.05));
+
+            for (let i = 0; i < updateCount; i++) {
+                const index = Math.floor(Math.random() * letters.length);
+                if (!letters[index]) continue;
+
+                letters[index].char = getRandomChar();
+                letters[index].targetColor = getRandomColor();
+
+                if (!config.smooth) {
+                    letters[index].color = letters[index].targetColor;
+                    letters[index].colorProgress = 1;
+                } else {
+                    letters[index].colorProgress = 0;
+                }
+            }
+        };
+
+        const handleSmoothTransitions = () => {
+            let needsRedraw = false;
+            letters.forEach(letter => {
+                if (letter.colorProgress < 1) {
+                    letter.colorProgress += 0.05;
+                    if (letter.colorProgress > 1) letter.colorProgress = 1;
+
+                    const startHex = letter.color.startsWith('#') ? letter.color : letter.targetColor; 
+                    const start = hexToRgb(startHex);
+                    const end = hexToRgb(letter.targetColor);
+
+                    if (start && end) {
+                        letter.color = interpolateColor(start, end, letter.colorProgress);
+                        needsRedraw = true;
+                    }
+                }
+            });
+            
+            if (needsRedraw) {
+                drawLetters();
+            }
+        };
+
+        const animate = () => {
+            const now = Date.now();
+            
+            if (now - lastGlitchTime >= config.glitchSpeed) {
+                updateLetters();
+                drawLetters();
+                lastGlitchTime = now;
+            }
+
+            if (config.smooth) {
+                handleSmoothTransitions();
+            }
+
+            animationFrameId = requestAnimationFrame(animate);
+        };
+
+        // Setup e Event Listeners
+        resizeCanvas();
+        animate();
+
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                cancelAnimationFrame(animationFrameId);
+                resizeCanvas();
+                animate();
+            }, 100);
+        });
+    })();
+
+
+    // --- B. ROTATING TEXT (Titolo - Vanilla JS Port) ---
+    (function() {
+        const texts = ['Flashcard', 'Quiz'];
+        const rotationInterval = 2000;
+        const container = document.getElementById('rotating-text-root');
+        if (!container) return; 
+
+        let currentIndex = 0;
+        let items = [];
+
+        function initializeRotatingText() {
+            container.innerHTML = '';
+            texts.forEach((text) => {
+                const span = document.createElement('span');
+                span.className = 'rotating-text-item';
+                span.textContent = text;
+                span.style.transitionDelay = '0ms';
+                
+                container.appendChild(span);
+                items.push(span);
+            });
+            
+            items[currentIndex].classList.add('active');
+        }
+
+        function rotateText() {
+            const currentItem = items[currentIndex];
+            
+            const nextIndex = (currentIndex + 1) % texts.length;
+            const nextItem = items[nextIndex];
+            
+            // Exit
+            currentItem.classList.add('exit');
+            currentItem.classList.remove('active');
+            
+            // Enter
+            nextItem.classList.remove('exit'); 
+            nextItem.classList.add('active');
+            
+            // Cleanup: rimuovi 'exit' dopo la transizione
+            setTimeout(() => {
+                currentItem.classList.remove('exit');
+            }, 500); 
+
+            currentIndex = nextIndex;
+        }
+
+        initializeRotatingText();
+        setInterval(rotateText, rotationInterval);
+    })();
+  </script>
+</body>
+</html>

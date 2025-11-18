@@ -736,10 +736,16 @@ body.theme-light .deck-item { background: rgba(255, 255, 255, 0.6); }
     display: inline-flex;
     position: relative;
     text-align: left;
-    height: 1.2em; /* CRUCIALE: Definisce l'altezza e nasconde l'overflow */
+    height: 1.2em; /* Mantenuto corretto */
     overflow: hidden;
-    vertical-align: middle;
+    
+    /* MODIFICA CRUCIALE PER L'ALLINEAMENTO: */
+    vertical-align: top; 
+    
     margin-left: 8px;
+    
+    /* Aggiungi una dimensione font esplicita se l'h1 è troppo grande */
+    /* font-size: 1.2rem; */ /* Puoi provare ad attivarlo se non si allinea ancora */
 }
 
 .rotating-text-item {
@@ -749,16 +755,18 @@ body.theme-light .deck-item { background: rgba(255, 255, 255, 0.6); }
     width: 100%;
     
     opacity: 0;
-    transform: translateY(100%); /* Stato iniziale: invisibile, sotto */
+    transform: translateY(100%);
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
-    /* Stili per renderlo visibile (controlla i colori) */
     padding: 0 8px;
     border-radius: 6px;
     background-color: var(--primary-color);
     color: var(--secondary-color-text);
+    
+    /* NUOVO: Rimuove margini interni che potrebbero causare problemi di altezza */
+    line-height: 1.2em; 
 }
-
+/* ... il resto rimane uguale ... */
 /* Stato Attivo (Entrata) */
 .rotating-text-item.active {
     opacity: 1;

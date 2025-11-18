@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz – Domande{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2>Quiz generato</h2>
+  <p class="card-intro">
+    Rispondi alle domande qui sotto. Le risposte non date valgono 0, quelle corrette +1, quelle sbagliate -0.25.
+  </p>
+
+  <div class="progress-summary">
+    <span>Domande totali: {{ questions|length }}</span>
+  </div>
+
+  <form method="post" action="{{ url_for('submit_quiz') }}" class="form">
+    {% for q in questions %}
+      {% set qi = loop.index0 %}
+      <div class="question-block">
+        <div class="question-header">
+          <span class="question-number">
+            Domanda {{ loop.index }} / {{ questions|length }}
+          </span>
+          <span class="question-type">
+            {% if q.qtype == "mcq" %}Scelta multipla{% else %}Completamento{% endif %}
+          </span>
+        </div>
+        <div class="question-text">
+          {{ q.text }}
+        </div>
+
+        <div class="question-body">
+          {% if q.qtype == "mcq" %}
+            <div class="options">
+              {% for opt in q.options %}
+                <label class="option">
+                  <input type="radio" name="q{{ qi }}" value="{{ opt }}">
+                  <span>{{ opt }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          {% else %}
+            <input
+              type="text"
+              name="q{{ qi }}"
+              class="text-answer"
+              placeholder="Risposta (una sola parola)"
+              autocomplete="off"
+            />
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+
+    <button type="submit" class="btn primary">Invia risposte e calcola punteggio</button>
+  </form>
+</div>
+{% endblock %}
